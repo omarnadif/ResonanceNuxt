@@ -15,28 +15,27 @@
         </p>
 
         <div class="mt-12">
-          <UButton
-            size="xl"
-            color="white"
-            variant="solid"
-            label="Commencer maintenant"
-            trailing-icon="i-heroicons-rocket-launch"
-            class="rounded-full px-10 py-4 font-bold text-black hover:bg-zinc-200 transition-all shadow-lg"
-          />
+          <NuxtLink
+            to="/login"
+            class="inline-flex items-center gap-3 bg-white text-black rounded-full px-10 py-4 font-bold text-lg hover:bg-zinc-200 transition-all shadow-lg"
+          >
+            Commencer maintenant
+            <UIcon name="i-heroicons-rocket-launch" class="text-xl" />
+          </NuxtLink>
         </div>
       </div>
 
       <div class="relative flex justify-center items-center h-[600px]">
         <div class="absolute w-[280px] h-[380px] rounded-[3.5rem] overflow-hidden border-[6px] border-[#171717] -rotate-12 -translate-x-32 shadow-2xl">
-          <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover" />
+          <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=600" alt="Musicien en studio" class="w-full h-full object-cover" />
         </div>
 
         <div class="absolute w-[300px] h-[400px] rounded-[4rem] overflow-hidden border-[6px] border-[#171717] rotate-3 z-20 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)]">
-          <img src="https://images.unsplash.com/photo-1514320298574-255c21f8ad0a?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover" />
+          <img src="https://images.unsplash.com/photo-1514320298574-255c21f8ad0a?auto=format&fit=crop&q=80&w=600" alt="Performance musicale" class="w-full h-full object-cover" />
         </div>
 
         <div class="absolute w-[280px] h-[380px] rounded-[3.5rem] overflow-hidden border-[6px] border-[#171717] rotate-12 translate-x-32 translate-y-12 z-10 shadow-2xl">
-          <img src="https://images.unsplash.com/photo-1507838596058-a762b05c30f9?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover" />
+          <img src="https://images.unsplash.com/photo-1507838596058-a762b05c30f9?auto=format&fit=crop&q=80&w=600" alt="Artiste musical" class="w-full h-full object-cover" />
         </div>
       </div>
     </div>
