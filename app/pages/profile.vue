@@ -1,13 +1,13 @@
 <template>
-  <div class="min-h-screen bg-[#171717] pt-32 pb-24 overflow-hidden">
+  <div class="min-h-screen bg-[#080808] pt-32 pb-24 overflow-hidden">
 
-    <div class="absolute top-0 right-1/4 w-[500px] h-[500px] bg-green-500/5 blur-[140px] rounded-full pointer-events-none" />
-    <div class="absolute top-60 left-1/4 w-[400px] h-[400px] bg-indigo-600/5 blur-[120px] rounded-full pointer-events-none" />
+    <div class="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#F75C03]/5 blur-[140px] rounded-full pointer-events-none" />
+    <div class="absolute top-60 left-1/4 w-[400px] h-[400px] bg-[#F75C03]/3 blur-[120px] rounded-full pointer-events-none" />
 
     <!-- Loader -->
     <div v-if="pending" class="flex justify-center items-center min-h-[50vh]">
       <div class="flex flex-col items-center gap-4">
-        <div class="w-12 h-12 border-2 border-white/10 border-t-green-400 rounded-full animate-spin" />
+        <div class="w-12 h-12 border-2 border-white/10 border-t-[#F75C03] rounded-full animate-spin" />
         <p class="text-white/40 text-sm">Chargement du profil…</p>
       </div>
     </div>
@@ -25,7 +25,7 @@
           >
           <div
             v-else
-            class="w-28 h-28 md:w-36 md:h-36 rounded-3xl bg-[#404040] border-2 border-white/10 flex items-center justify-center shadow-2xl transition-opacity group-hover:opacity-70"
+            class="w-28 h-28 md:w-36 md:h-36 rounded-3xl bg-[#1A1A1A] border-2 border-white/10 flex items-center justify-center shadow-2xl transition-opacity group-hover:opacity-70"
           >
             <UIcon name="i-heroicons-user" class="text-white/20 text-6xl" />
           </div>
@@ -45,12 +45,12 @@
           <h1 class="text-3xl md:text-5xl font-black tracking-tighter text-white uppercase leading-none">
             {{ displayName }}
           </h1>
-          <p v-if="profile?.stage_name && profile?.first_name" class="text-[#A3A3A3] text-base mt-1.5 font-medium">
+          <p v-if="profile?.stage_name && profile?.first_name" class="text-white/40 text-base mt-1.5 font-medium">
             {{ profile.first_name }} {{ profile.last_name }}
           </p>
           <div v-if="profile?.city" class="flex items-center gap-1.5 mt-2">
-            <UIcon name="i-heroicons-map-pin-mini" class="text-[#A3A3A3] text-sm shrink-0" />
-            <span class="text-[#A3A3A3] text-sm">{{ profile.city }}</span>
+            <UIcon name="i-heroicons-map-pin-mini" class="text-white/40 text-sm shrink-0" />
+            <span class="text-white/40 text-sm">{{ profile.city }}</span>
           </div>
           <p v-if="profile?.bio" class="mt-4 text-white/60 max-w-lg leading-relaxed text-sm md:text-base">
             {{ profile.bio }}
@@ -79,7 +79,7 @@
             :key="role.id"
             class="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5"
           >
-            <UIcon name="i-heroicons-musical-note" class="text-green-400 text-xs shrink-0" />
+            <UIcon name="i-heroicons-musical-note" class="text-[#F75C03] text-xs shrink-0" />
             <span class="text-white text-sm font-semibold">{{ role.role_name }}</span>
             <span v-if="role.experience_level" class="text-white/40 text-xs border-l border-white/10 pl-2">
               {{ role.experience_level }}
@@ -113,6 +113,66 @@
               <p class="text-white font-semibold text-sm">{{ formatDate(subscription.expires_date) }}</p>
             </div>
           </template>
+        </div>
+      </section>
+
+      <!-- ─── DEMANDES REÇUES ────────────────────────────────── -->
+      <section v-if="interests.length" class="mt-12">
+        <h2 class="section-label">
+          Demandes reçues
+          <span class="ml-2 text-[#F75C03] font-bold">
+            {{ interests.filter(i => i.status === 'pending').length || '' }}
+          </span>
+        </h2>
+        <div class="flex flex-col gap-3 mt-3">
+          <div
+            v-for="req in interests"
+            :key="req.id"
+            class="flex items-center gap-4 bg-[#0F0F0F] border rounded-2xl px-5 py-4 transition-colors"
+            :class="req.status === 'pending' ? 'border-[#F75C03]/20' : 'border-white/[0.07]'"
+          >
+            <!-- Avatar -->
+            <div class="w-9 h-9 rounded-xl overflow-hidden shrink-0 bg-[#1A1A1A] border border-white/10 flex items-center justify-center">
+              <img v-if="req.sender_avatar_url" :src="req.sender_avatar_url" class="w-full h-full object-cover">
+              <UIcon v-else name="i-heroicons-user" class="text-white/20 text-base" />
+            </div>
+
+            <!-- Infos -->
+            <div class="flex-1 min-w-0">
+              <p class="text-white font-semibold text-sm truncate">
+                {{ req.sender_stage_name || `${req.sender_first_name ?? ''} ${req.sender_last_name ?? ''}`.trim() || 'Utilisateur' }}
+              </p>
+              <p class="text-white/30 text-xs truncate">
+                Intéressé par : <span class="text-white/50">{{ req.announcement_title }}</span>
+              </p>
+            </div>
+
+            <!-- Status / Actions -->
+            <div class="shrink-0 flex items-center gap-2">
+              <span
+                v-if="req.status === 'accepted'"
+                class="text-xs font-semibold text-[#F75C03] bg-[#F75C03]/10 border border-[#F75C03]/20 rounded-full px-2.5 py-1"
+              >Accepté</span>
+              <span
+                v-else-if="req.status === 'rejected'"
+                class="text-xs font-semibold text-white/30 bg-white/5 border border-white/10 rounded-full px-2.5 py-1"
+              >Refusé</span>
+              <template v-else>
+                <button
+                  class="text-xs font-semibold text-white/40 border border-white/10 rounded-lg px-3 py-1.5 hover:border-red-400/30 hover:text-red-400 transition-colors"
+                  @click="rejectInterest(req.id)"
+                >
+                  Refuser
+                </button>
+                <button
+                  class="text-xs font-semibold text-[#F75C03] bg-[#F75C03]/10 border border-[#F75C03]/20 rounded-lg px-3 py-1.5 hover:bg-[#F75C03]/20 transition-colors"
+                  @click="acceptInterest(req.id)"
+                >
+                  Accepter
+                </button>
+              </template>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -220,9 +280,9 @@
     </div>
 
     <!-- ─── MODAL SUPPRESSION ──────────────────────────────── -->
-    <UModal v-model:open="deleteOpen">
+    <UModal v-model:open="deleteOpen" :ui="{ content: 'bg-[#0F0F0F] ring-1 ring-white/10 divide-y-0' }">
       <template #content>
-        <div class="bg-[#1c1c1c] border border-white/10 rounded-2xl p-6 flex flex-col gap-5">
+        <div class="p-6 flex flex-col gap-5">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center shrink-0">
               <UIcon name="i-heroicons-trash" class="text-red-400" />
@@ -243,7 +303,7 @@
     <!-- ─── SLIDEOVER PROFIL ───────────────────────────────── -->
     <USlideover v-model:open="editOpen" side="right" :ui="{ width: 'max-w-md' }">
       <template #content>
-        <div class="flex flex-col h-full bg-[#1c1c1c] overflow-y-auto">
+        <div class="flex flex-col h-full bg-[#0F0F0F] overflow-y-auto">
           <div class="flex items-center justify-between px-6 py-5 border-b border-white/10 shrink-0">
             <h2 class="text-white font-bold text-lg">Modifier le profil</h2>
             <UButton icon="i-heroicons-x-mark" variant="ghost" color="neutral" size="sm" @click="editOpen = false" />
@@ -260,7 +320,7 @@
                 >
                 <div
                   v-else
-                  class="w-24 h-24 rounded-2xl bg-[#404040] border-2 border-white/10 flex items-center justify-center transition-opacity group-hover:opacity-70"
+                  class="w-24 h-24 rounded-2xl bg-[#1A1A1A] border-2 border-white/10 flex items-center justify-center transition-opacity group-hover:opacity-70"
                 >
                   <UIcon name="i-heroicons-user" class="text-white/20 text-4xl" />
                 </div>
@@ -269,7 +329,7 @@
                 </div>
               </div>
               <input ref="fileInput" type="file" accept="image/*" class="hidden" @change="onFileChange">
-              <button class="text-green-400 text-xs font-semibold hover:text-green-300 transition-colors" @click="triggerFileInput">
+              <button class="text-[#F75C03] text-xs font-semibold hover:text-[#F75C03]/70 transition-colors" @click="triggerFileInput">
                 Changer la photo
               </button>
               <p v-if="uploadProgress" class="text-white/40 text-xs">{{ uploadProgress }}</p>
@@ -307,7 +367,7 @@
             <div v-if="saveError" class="flex items-center gap-2 bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-xl px-4 py-3">
               <UIcon name="i-heroicons-exclamation-circle" class="shrink-0" />{{ saveError }}
             </div>
-            <div v-if="saveSuccess" class="flex items-center gap-2 bg-green-500/10 border border-green-500/20 text-green-400 text-sm rounded-xl px-4 py-3">
+            <div v-if="saveSuccess" class="flex items-center gap-2 bg-[#F75C03]/10 border border-[#F75C03]/20 text-[#F75C03] text-sm rounded-xl px-4 py-3">
               <UIcon name="i-heroicons-check-circle" class="shrink-0" />Profil mis à jour !
             </div>
           </div>
@@ -323,7 +383,7 @@
     <!-- ─── SLIDEOVER ANNONCE ──────────────────────────────── -->
     <USlideover v-model:open="annOpen" side="right" :ui="{ width: 'max-w-md' }">
       <template #content>
-        <div class="flex flex-col h-full bg-[#1c1c1c] overflow-y-auto">
+        <div class="flex flex-col h-full bg-[#0F0F0F] overflow-y-auto">
           <div class="flex items-center justify-between px-6 py-5 border-b border-white/10 shrink-0">
             <h2 class="text-white font-bold text-lg">
               {{ annEditId ? 'Modifier l\'annonce' : 'Nouvelle annonce' }}
@@ -349,13 +409,13 @@
             <div>
               <label class="edit-label">Type d'annonce</label>
               <select v-model="annForm.type" class="edit-input">
-                <option value="" class="bg-[#1c1c1c] text-white/50">Choisir un type…</option>
-                <option value="Musicien cherche groupe" class="bg-[#1c1c1c] text-white">Musicien cherche groupe</option>
-                <option value="Groupe cherche musicien" class="bg-[#1c1c1c] text-white">Groupe cherche musicien</option>
-                <option value="Cours de musique" class="bg-[#1c1c1c] text-white">Cours de musique</option>
-                <option value="Collaboration studio" class="bg-[#1c1c1c] text-white">Collaboration studio</option>
-                <option value="Concert / Événement" class="bg-[#1c1c1c] text-white">Concert / Événement</option>
-                <option value="Autre" class="bg-[#1c1c1c] text-white">Autre</option>
+                <option value="" class="bg-[#0F0F0F] text-white/50">Choisir un type…</option>
+                <option value="Musicien cherche groupe" class="bg-[#0F0F0F] text-white">Musicien cherche groupe</option>
+                <option value="Groupe cherche musicien" class="bg-[#0F0F0F] text-white">Groupe cherche musicien</option>
+                <option value="Cours de musique" class="bg-[#0F0F0F] text-white">Cours de musique</option>
+                <option value="Collaboration studio" class="bg-[#0F0F0F] text-white">Collaboration studio</option>
+                <option value="Concert / Événement" class="bg-[#0F0F0F] text-white">Concert / Événement</option>
+                <option value="Autre" class="bg-[#0F0F0F] text-white">Autre</option>
               </select>
             </div>
 
@@ -386,12 +446,12 @@
               <div>
                 <label class="edit-label">Par</label>
                 <select v-model="annForm.price_type" class="edit-input">
-                  <option value="" class="bg-[#1c1c1c] text-white/50">Sans tarif</option>
-                  <option value="heure" class="bg-[#1c1c1c] text-white">Heure</option>
-                  <option value="séance" class="bg-[#1c1c1c] text-white">Séance</option>
-                  <option value="projet" class="bg-[#1c1c1c] text-white">Projet</option>
-                  <option value="concert" class="bg-[#1c1c1c] text-white">Concert</option>
-                  <option value="mois" class="bg-[#1c1c1c] text-white">Mois</option>
+                  <option value="" class="bg-[#0F0F0F] text-white/50">Sans tarif</option>
+                  <option value="heure" class="bg-[#0F0F0F] text-white">Heure</option>
+                  <option value="séance" class="bg-[#0F0F0F] text-white">Séance</option>
+                  <option value="projet" class="bg-[#0F0F0F] text-white">Projet</option>
+                  <option value="concert" class="bg-[#0F0F0F] text-white">Concert</option>
+                  <option value="mois" class="bg-[#0F0F0F] text-white">Mois</option>
                 </select>
               </div>
             </div>
@@ -409,7 +469,7 @@
                 </button>
                 <button
                   class="flex-1 py-2 text-sm font-semibold rounded-lg transition-all"
-                  :class="annForm.status === 'published' ? 'bg-green-400/20 text-green-400' : 'text-white/40 hover:text-white'"
+                  :class="annForm.status === 'published' ? 'bg-[#F75C03]/20 text-[#F75C03]' : 'text-white/40 hover:text-white'"
                   @click="annForm.status = 'published'"
                 >
                   Publier
@@ -420,7 +480,7 @@
             <div v-if="annError" class="flex items-center gap-2 bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-xl px-4 py-3">
               <UIcon name="i-heroicons-exclamation-circle" class="shrink-0" />{{ annError }}
             </div>
-            <div v-if="annSuccess" class="flex items-center gap-2 bg-green-500/10 border border-green-500/20 text-green-400 text-sm rounded-xl px-4 py-3">
+            <div v-if="annSuccess" class="flex items-center gap-2 bg-[#F75C03]/10 border border-[#F75C03]/20 text-[#F75C03] text-sm rounded-xl px-4 py-3">
               <UIcon name="i-heroicons-check-circle" class="shrink-0" />
               {{ annEditId ? 'Annonce mise à jour !' : 'Annonce créée !' }}
             </div>
@@ -446,6 +506,7 @@ const profile = ref(null)
 const roles = ref([])
 const announcements = ref([])
 const subscription = ref(null)
+const interests = ref([])
 const pending = ref(true)
 
 // ── Profil edit ──────────────────────────────────────────────
@@ -482,7 +543,7 @@ const displayName = computed(() => {
 
 const planBadgeClass = computed(() => {
   const plan = subscription.value?.plan_type?.toLowerCase()
-  if (plan === 'pro') return 'bg-green-400/10 border-green-400/30 text-green-400'
+  if (plan === 'pro') return 'bg-[#F75C03]/10 border-[#F75C03]/30 text-[#F75C03]'
   if (plan === 'premium') return 'bg-indigo-400/10 border-indigo-400/30 text-indigo-400'
   return 'bg-white/10 border-white/20 text-white/60'
 })
@@ -553,6 +614,24 @@ async function saveProfile() {
     saveError.value = err.message
   } finally {
     saving.value = false
+  }
+}
+
+// ── Intérêts helpers ──────────────────────────────────────────
+async function acceptInterest(interestId) {
+  const { data: convId, error } = await supabase.rpc('accept_interest', { p_interest_id: interestId })
+  if (!error) {
+    const idx = interests.value.findIndex(i => i.id === interestId)
+    if (idx !== -1) interests.value[idx] = { ...interests.value[idx], status: 'accepted' }
+    await navigateTo(`/conversations?id=${convId}`)
+  }
+}
+
+async function rejectInterest(interestId) {
+  const { error } = await supabase.rpc('reject_interest', { p_interest_id: interestId })
+  if (!error) {
+    const idx = interests.value.findIndex(i => i.id === interestId)
+    if (idx !== -1) interests.value[idx] = { ...interests.value[idx], status: 'rejected' }
   }
 }
 
@@ -682,17 +761,20 @@ onMounted(async () => {
   if (!user.value) { pending.value = false; return }
   const uid = user.value.id
 
-  const [profileRes, rolesRes, announcementsRes, subscriptionRes] = await Promise.all([
+  const [profileRes, rolesRes, announcementsRes, subscriptionRes, interestsRes] = await Promise.all([
     supabase.rpc('get_my_profile'),
     supabase.from('roles').select('*').eq('id_profile', uid),
     supabase.rpc('get_my_announcements'),
-    supabase.from('subscriptions').select('*').eq('id_profile', uid).single()
+    supabase.from('subscriptions').select('*').eq('id_profile', uid).single(),
+    supabase.rpc('get_my_interests_received')
   ])
 
   if (profileRes.data?.[0]) profile.value = profileRes.data[0]
   if (rolesRes.data) roles.value = rolesRes.data
   if (announcementsRes.data) announcements.value = announcementsRes.data
   if (subscriptionRes.data) subscription.value = subscriptionRes.data
+  console.log('interests:', interestsRes.data, interestsRes.error)
+  if (interestsRes.data) interests.value = interestsRes.data
 
   pending.value = false
 })
@@ -708,6 +790,6 @@ onMounted(async () => {
   @apply block text-xs font-semibold text-white/40 uppercase tracking-widest mb-1.5;
 }
 .edit-input {
-  @apply w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm placeholder-white/20 outline-none focus:border-green-400/50 focus:bg-white/[0.07] transition-all;
+  @apply w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm placeholder-white/20 outline-none focus:border-[#F75C03]/50 focus:bg-white/[0.07] transition-all;
 }
 </style>
