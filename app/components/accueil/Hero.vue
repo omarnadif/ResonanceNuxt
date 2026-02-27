@@ -1,105 +1,41 @@
 <template>
-  <section class="relative min-h-screen bg-[#080808] flex items-center overflow-hidden">
+  <section class="relative pt-44 pb-24 bg-[#404040] overflow-hidden min-h-screen flex items-center">
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/5 blur-[120px] rounded-full"></div>
 
-    <!-- Grain texture overlay -->
-    <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')" />
+    <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-    <!-- Orange glow top-left -->
-    <div class="absolute -top-32 -left-32 w-[600px] h-[600px] bg-[#F75C03] opacity-[0.06] blur-[160px] rounded-full pointer-events-none" />
+      <div class="relative z-10">
+        <h1 class="text-7xl md:text-[110px] font-black tracking-tighter leading-[0.85] text-white uppercase">
+          Construis.<br>
+          Participe.<br>
+          <span class="text-[#171717]">Monétise.</span>
+        </h1>
+        <p class="mt-10 text-xl text-[#A3A3A3] max-w-sm font-medium leading-snug">
+          Construis ton projet, engage ta communauté et monétise ton talent pour atteindre tes objectifs.
+        </p>
 
-    <div class="relative max-w-7xl mx-auto px-6 pt-28 pb-20 w-full">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div class="mt-12">
+          <NuxtLink
+            to="/login"
+            class="inline-flex items-center gap-3 bg-white text-black rounded-full px-10 py-4 font-bold text-lg hover:bg-zinc-200 transition-all shadow-lg"
+          >
+            Commencer maintenant
+            <UIcon name="i-heroicons-rocket-launch" class="text-xl" />
+          </NuxtLink>
+        </div>
+      </div>
 
-        <!-- Left — Text -->
-        <div>
-          <!-- Pill badge -->
-          <div class="inline-flex items-center gap-2 border border-[#F75C03]/30 bg-[#F75C03]/5 rounded-full px-4 py-1.5 mb-10">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#F75C03] animate-pulse" />
-            <span class="text-[#F75C03] text-xs font-semibold tracking-widest uppercase">Plateforme musicale</span>
-          </div>
-
-          <!-- Headline -->
-          <h1 class="font-headline font-black uppercase leading-none tracking-tight text-white" style="font-size: clamp(5rem, 12vw, 9rem); line-height: 0.88;">
-            CONS-<br>
-            TRUIS.<br>
-            JOUE.<br>
-            <span class="text-[#F75C03]">RÉSONNE.</span>
-          </h1>
-
-          <!-- Tagline -->
-          <p class="mt-10 text-white/50 text-lg font-medium max-w-sm leading-relaxed">
-            La plateforme des musiciens qui veulent marquer leur scène — annonces, collaborations, contacts.
-          </p>
-
-          <!-- CTAs -->
-          <div class="mt-10 flex items-center gap-4 flex-wrap">
-            <NuxtLink
-              to="/login"
-              class="inline-flex items-center gap-2 bg-[#F75C03] text-white font-semibold px-7 py-3.5 rounded-lg hover:bg-[#e05200] transition-colors text-sm"
-            >
-              Rejoindre maintenant
-              <UIcon name="i-heroicons-arrow-right" class="text-sm" />
-            </NuxtLink>
-            <NuxtLink
-              to="/features"
-              class="inline-flex items-center gap-2 border border-white/10 text-white/60 font-semibold px-7 py-3.5 rounded-lg hover:border-white/20 hover:text-white transition-all text-sm"
-            >
-              Voir les annonces
-            </NuxtLink>
-          </div>
-
-          <!-- Stats -->
-          <div class="mt-14 flex items-center gap-10 pt-10 border-t border-white/[0.06]">
-            <div>
-              <p class="text-2xl font-bold text-white">500+</p>
-              <p class="text-xs text-white/30 mt-0.5 uppercase tracking-widest">Musiciens</p>
-            </div>
-            <div class="w-px h-8 bg-white/[0.08]" />
-            <div>
-              <p class="text-2xl font-bold text-white">120+</p>
-              <p class="text-xs text-white/30 mt-0.5 uppercase tracking-widest">Annonces</p>
-            </div>
-            <div class="w-px h-8 bg-white/[0.08]" />
-            <div>
-              <p class="text-2xl font-bold text-white">30+</p>
-              <p class="text-xs text-white/30 mt-0.5 uppercase tracking-widest">Villes</p>
-            </div>
-          </div>
+      <div class="relative flex justify-center items-center h-[600px]">
+        <div class="absolute w-[280px] h-[380px] rounded-[3.5rem] overflow-hidden border-[6px] border-[#171717] -rotate-12 -translate-x-32 shadow-2xl">
+          <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=600" alt="Musicien en studio" class="w-full h-full object-cover" />
         </div>
 
-        <!-- Right — Images -->
-        <div class="relative flex justify-center items-center h-[580px] hidden lg:flex">
-          <!-- Card back-left -->
-          <div class="absolute w-[260px] h-[360px] rounded-2xl overflow-hidden border border-white/[0.08] -rotate-12 -translate-x-28 shadow-2xl">
-            <img
-              src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=600"
-              class="w-full h-full object-cover"
-              alt=""
-            >
-            <div class="absolute inset-0 bg-gradient-to-t from-[#080808]/60 to-transparent" />
-          </div>
+        <div class="absolute w-[300px] h-[400px] rounded-[4rem] overflow-hidden border-[6px] border-[#171717] rotate-3 z-20 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)]">
+          <img src="https://images.unsplash.com/photo-1514320298574-255c21f8ad0a?auto=format&fit=crop&q=80&w=600" alt="Performance musicale" class="w-full h-full object-cover" />
+        </div>
 
-          <!-- Card center -->
-          <div class="absolute w-[280px] h-[380px] rounded-2xl overflow-hidden border border-white/[0.08] rotate-2 z-20 shadow-[0_40px_80px_rgba(0,0,0,0.6)]">
-            <img
-              src="https://images.unsplash.com/photo-1514320298574-255c21f8ad0a?auto=format&fit=crop&q=80&w=600"
-              class="w-full h-full object-cover"
-              alt=""
-            >
-            <div class="absolute inset-0 bg-gradient-to-t from-[#080808]/50 to-transparent" />
-            <!-- Orange accent bar -->
-            <div class="absolute bottom-0 left-0 right-0 h-1 bg-[#F75C03]" />
-          </div>
-
-          <!-- Card right -->
-          <div class="absolute w-[260px] h-[360px] rounded-2xl overflow-hidden border border-white/[0.08] rotate-12 translate-x-28 translate-y-10 z-10 shadow-2xl">
-            <img
-              src="https://images.unsplash.com/photo-1507838596058-a762b05c30f9?auto=format&fit=crop&q=80&w=600"
-              class="w-full h-full object-cover"
-              alt=""
-            >
-            <div class="absolute inset-0 bg-gradient-to-t from-[#080808]/60 to-transparent" />
-          </div>
+        <div class="absolute w-[280px] h-[380px] rounded-[3.5rem] overflow-hidden border-[6px] border-[#171717] rotate-12 translate-x-32 translate-y-12 z-10 shadow-2xl">
+          <img src="https://images.unsplash.com/photo-1507838596058-a762b05c30f9?auto=format&fit=crop&q=80&w=600" alt="Artiste musical" class="w-full h-full object-cover" />
         </div>
 
       </div>
