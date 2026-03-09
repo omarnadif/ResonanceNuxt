@@ -19,16 +19,13 @@
           </div>
 
           <!-- Headline -->
-          <h1 class="font-headline font-black uppercase leading-none tracking-tight text-white" style="font-size: clamp(5rem, 12vw, 9rem); line-height: 0.88;">
-            CONS-<br>
-            TRUIS.<br>
-            JOUE.<br>
-            <span class="text-[#F75C03]">RÉSONNE.</span>
+          <h1 class="font-headline font-black uppercase leading-none tracking-tight text-white" style="font-size: clamp(2.5rem, 5.5vw, 5rem); line-height: 1;">
+            CONSTRUIS. PARTICIPE. <span class="text-[#F75C03]">MONÉTISE.</span>
           </h1>
 
           <!-- Tagline -->
           <p class="mt-10 text-white/50 text-lg font-medium max-w-sm leading-relaxed">
-            La plateforme des musiciens qui veulent marquer leur scène — annonces, collaborations, contacts.
+            Construis ton projet, engage ta communauté et monétise ton talent pour atteindre tes objectifs.
           </p>
 
           <!-- CTAs -->
@@ -72,7 +69,7 @@
           <!-- Card back-left -->
           <div class="absolute w-[260px] h-[360px] rounded-2xl overflow-hidden border border-white/[0.08] -rotate-12 -translate-x-28 shadow-2xl">
             <img
-              src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=600"
+              src="/images/hero-1.png"
               class="w-full h-full object-cover"
               alt=""
             >
@@ -82,19 +79,17 @@
           <!-- Card center -->
           <div class="absolute w-[280px] h-[380px] rounded-2xl overflow-hidden border border-white/[0.08] rotate-2 z-20 shadow-[0_40px_80px_rgba(0,0,0,0.6)]">
             <img
-              src="https://images.unsplash.com/photo-1514320298574-255c21f8ad0a?auto=format&fit=crop&q=80&w=600"
+              src="/images/hero-2.png"
               class="w-full h-full object-cover"
               alt=""
             >
             <div class="absolute inset-0 bg-gradient-to-t from-[#080808]/50 to-transparent" />
-            <!-- Orange accent bar -->
-            <div class="absolute bottom-0 left-0 right-0 h-1 bg-[#F75C03]" />
           </div>
 
-          <!-- Card right -->
-          <div class="absolute w-[260px] h-[360px] rounded-2xl overflow-hidden border border-white/[0.08] rotate-12 translate-x-28 translate-y-10 z-10 shadow-2xl">
+          <!-- Card right (overlapping center) -->
+          <div class="absolute w-[260px] h-[360px] rounded-2xl overflow-hidden border border-white/[0.08] rotate-[10deg] translate-x-44 -translate-y-0 z-30 shadow-2xl">
             <img
-              src="https://images.unsplash.com/photo-1507838596058-a762b05c30f9?auto=format&fit=crop&q=80&w=600"
+              src="/images/hero-3.png"
               class="w-full h-full object-cover"
               alt=""
             >
