@@ -3,11 +3,8 @@
     <div class="max-w-7xl mx-auto px-6 flex items-center h-16 gap-12">
 
       <!-- Logo -->
-      <NuxtLink to="/" class="shrink-0 flex items-center gap-2 group">
-        <span class="w-2 h-2 rounded-full bg-[#F75C03] group-hover:scale-125 transition-transform" />
-        <span class="text-base font-bold tracking-[0.2em] text-white uppercase">
-          Resonance
-        </span>
+      <NuxtLink to="/" class="shrink-0 flex items-center group">
+        <img src="/images/logo_resonance.png" alt="Resonance" class="h-8 w-auto" />
       </NuxtLink>
 
       <!-- Nav -->

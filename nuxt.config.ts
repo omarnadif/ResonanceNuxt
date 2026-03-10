@@ -6,6 +6,14 @@ export default defineNuxtConfig({
     '@nuxtjs/supabase'
   ],
 
+  app: {
+    head: {
+      link: [
+        { rel: 'icon', type: 'image/png', href: '/images/logo_resonance.png' }
+      ]
+    }
+  },
+
   supabase: {
     redirect: false
   },

@@ -7,9 +7,8 @@
     <div class="relative w-full max-w-sm">
 
       <!-- Logo -->
-      <NuxtLink to="/" class="flex items-center justify-center gap-2 mb-12 group">
-        <span class="w-2 h-2 rounded-full bg-[#F75C03]" />
-        <span class="text-base font-bold tracking-[0.2em] text-white uppercase">Resonance</span>
+      <NuxtLink to="/" class="flex items-center justify-center mb-12 group">
+        <img src="/images/logo_resonance.png" alt="Resonance" class="h-10 w-auto" />
       </NuxtLink>
 
       <!-- Card -->
