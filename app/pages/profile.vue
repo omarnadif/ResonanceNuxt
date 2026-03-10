@@ -116,6 +116,63 @@
         </div>
       </section>
 
+      <!-- ─── AVIS REÇUS ──────────────────────────────────────── -->
+      <section class="mt-12">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="section-label mb-0">
+            Avis reçus
+            <span v-if="profileStats.review_count > 0" class="ml-2 text-white/30 font-normal normal-case tracking-normal text-sm">({{ profileStats.review_count }})</span>
+          </h2>
+          <!-- Moyenne -->
+          <div v-if="profileStats.review_count > 0" class="flex items-center gap-2">
+            <div class="flex items-center gap-0.5">
+              <UIcon
+                v-for="s in 5" :key="s"
+                :name="s <= Math.round(Number(profileStats.avg_rating)) ? 'i-heroicons-star-20-solid' : 'i-heroicons-star'"
+                class="text-sm"
+                :class="s <= Math.round(Number(profileStats.avg_rating)) ? 'text-[#F75C03]' : 'text-white/20'"
+              />
+            </div>
+            <span class="text-white font-bold text-sm">{{ profileStats.avg_rating }}</span>
+          </div>
+        </div>
+
+        <div v-if="!receivedReviews.length" class="py-10 flex flex-col items-center justify-center border border-dashed border-white/[0.07] rounded-2xl">
+          <UIcon name="i-heroicons-star" class="text-white/10 mb-2" style="font-size: 2rem;" />
+          <p class="text-white/20 text-sm">Aucun avis reçu pour le moment</p>
+        </div>
+        <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div
+            v-for="r in receivedReviews"
+            :key="r.id"
+            class="bg-[#0F0F0F] border border-white/[0.07] rounded-2xl p-4 hover:border-white/10 transition-colors"
+          >
+            <div class="flex items-center gap-3 mb-3">
+              <NuxtLink :to="`/user/${r.reviewer_id}`" class="w-8 h-8 rounded-xl overflow-hidden shrink-0 bg-[#1A1A1A] border border-white/[0.07] flex items-center justify-center hover:border-white/20 transition-colors">
+                <img v-if="r.reviewer_avatar_url" :src="r.reviewer_avatar_url" class="w-full h-full object-cover">
+                <UIcon v-else name="i-heroicons-user" class="text-white/20 text-xs" />
+              </NuxtLink>
+              <div class="flex-1 min-w-0">
+                <NuxtLink :to="`/user/${r.reviewer_id}`" class="text-white text-sm font-semibold hover:text-[#F75C03] transition-colors">
+                  {{ r.reviewer_stage_name || `${r.reviewer_first_name ?? ''} ${r.reviewer_last_name ?? ''}`.trim() || 'Utilisateur' }}
+                </NuxtLink>
+                <p class="text-white/30 text-xs">{{ formatDate(r.created_at) }}</p>
+              </div>
+              <div class="flex items-center gap-0.5 shrink-0">
+                <UIcon
+                  v-for="s in 5" :key="s"
+                  :name="s <= r.rating ? 'i-heroicons-star-20-solid' : 'i-heroicons-star'"
+                  class="text-xs"
+                  :class="s <= r.rating ? 'text-[#F75C03]' : 'text-white/15'"
+                />
+              </div>
+            </div>
+            <p v-if="r.comment" class="text-white/50 text-sm leading-relaxed">{{ r.comment }}</p>
+            <p v-else class="text-white/20 text-xs italic">Sans commentaire</p>
+          </div>
+        </div>
+      </section>
+
       <!-- ─── DEMANDES REÇUES ────────────────────────────────── -->
       <section v-if="interests.length" class="mt-12">
         <h2 class="section-label">
@@ -507,6 +564,8 @@ const roles = ref([])
 const announcements = ref([])
 const subscription = ref(null)
 const interests = ref([])
+const receivedReviews = ref([])
+const profileStats = ref({ avg_rating: 0, review_count: 0 })
 const pending = ref(true)
 
 // ── Profil edit ──────────────────────────────────────────────
@@ -758,23 +817,27 @@ async function executeDelete() {
 
 // ── Load ─────────────────────────────────────────────────────
 onMounted(async () => {
-  if (!user.value) { pending.value = false; return }
-  const uid = user.value.id
+  const { data: { user: sessionUser } } = await supabase.auth.getUser()
+  const uid = sessionUser?.id
+  if (!uid) { pending.value = false; return }
 
-  const [profileRes, rolesRes, announcementsRes, subscriptionRes, interestsRes] = await Promise.all([
+  const [profileRes, rolesRes, announcementsRes, subscriptionRes, interestsRes, reviewsRes, statsRes] = await Promise.all([
     supabase.rpc('get_my_profile'),
     supabase.from('roles').select('*').eq('id_profile', uid),
     supabase.rpc('get_my_announcements'),
     supabase.from('subscriptions').select('*').eq('id_profile', uid).single(),
-    supabase.rpc('get_my_interests_received')
+    supabase.rpc('get_my_interests_received'),
+    supabase.rpc('get_profile_reviews', { p_profile_id: uid }),
+    supabase.rpc('get_profile_stats', { p_profile_id: uid })
   ])
 
   if (profileRes.data?.[0]) profile.value = profileRes.data[0]
   if (rolesRes.data) roles.value = rolesRes.data
   if (announcementsRes.data) announcements.value = announcementsRes.data
   if (subscriptionRes.data) subscription.value = subscriptionRes.data
-  console.log('interests:', interestsRes.data, interestsRes.error)
   if (interestsRes.data) interests.value = interestsRes.data
+  if (reviewsRes.data) receivedReviews.value = reviewsRes.data
+  if (statsRes.data?.[0]) profileStats.value = statsRes.data[0]
 
   pending.value = false
 })

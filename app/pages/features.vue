@@ -90,12 +90,12 @@
         >
           <!-- Author -->
           <div class="flex items-center gap-3 mb-5">
-            <div class="w-8 h-8 rounded-lg overflow-hidden shrink-0 bg-[#1A1A1A] border border-white/[0.07] flex items-center justify-center">
+            <NuxtLink :to="`/user/${ann.id_profile}`" class="w-8 h-8 rounded-lg overflow-hidden shrink-0 bg-[#1A1A1A] border border-white/[0.07] flex items-center justify-center hover:border-[#F75C03]/30 transition-colors">
               <img v-if="ann.avatar_url" :src="ann.avatar_url" :alt="authorName(ann)" class="w-full h-full object-cover">
               <UIcon v-else name="i-heroicons-user" class="text-white/20 text-base" />
-            </div>
+            </NuxtLink>
             <div class="min-w-0 flex-1">
-              <p class="text-white text-sm font-semibold truncate">{{ authorName(ann) }}</p>
+              <NuxtLink :to="`/user/${ann.id_profile}`" class="text-white text-sm font-semibold truncate hover:text-[#F75C03] transition-colors block">{{ authorName(ann) }}</NuxtLink>
               <p v-if="ann.city" class="text-white/30 text-xs">{{ ann.city }}</p>
             </div>
             <span v-if="ann.type" class="text-xs text-[#F75C03]/70 bg-[#F75C03]/[0.08] border border-[#F75C03]/20 rounded-full px-2.5 py-0.5 shrink-0 hidden xl:block">
